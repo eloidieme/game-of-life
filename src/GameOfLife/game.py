@@ -29,8 +29,28 @@ class Game:
             np.random.seed(random_seed)
         self.alive_probability = alive_probability
 
-    def _parse_grid_from_file(self, path: str):
-        pass
+    def _parse_grid_from_file(self) -> np.ndarray:
+        file_path = Path(self.starting_grid_filepath)
+        grid = []
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+
+        for line in lines:
+            row = []
+            for char in line:
+                if (char != '\n'):
+                    if char not in ["0", "1"]:
+                        logger.error("Incorrect value in import file. Values must be 0 or 1.")
+                        raise ValueError
+                    row.append(int(char))
+            grid.append(row)
+        grid = np.array(grid)
+
+        if grid.shape != self.grid_size:
+            logger.error("Size of imported grid and entered grid size do not match.")
+            raise ValueError
+
+        return np.array(grid)
 
     def _initialize_grid(self) -> np.ndarray:
         """
