@@ -9,8 +9,8 @@ from GameOfLife import logger
 class Game:
     def __init__(
             self,
-            grid_width,
             grid_height,
+            grid_width,
             random_grid: bool = True,
             starting_grid_filepath: Optional[str] = None,
             random_seed: Optional[int] = None,
@@ -20,7 +20,7 @@ class Game:
             logger.error("Grid width and height must be positive.")
             raise ValueError
 
-        self.grid_size = (grid_width, grid_height)
+        self.grid_size = (grid_height, grid_width)
         self.starting_grid_filepath = starting_grid_filepath
         self.random_grid = random_grid
         if starting_grid_filepath:
@@ -66,7 +66,7 @@ class Game:
         Initializes a grid using the class attributes (random or file-loaded).
         Defaults to a dead grid (meaning all the cells are set to zero).
         """
-        grid = np.zeros(self.grid_size, dtype=np.bool_)
+        grid = np.zeros(self.grid_size)
 
         if self.starting_grid_filepath:
             grid = self._parse_grid_from_file()
@@ -77,8 +77,21 @@ class Game:
 
         return grid
 
-    def _update_grid_state(self) -> None:
-        pass
+    def _update_grid_state(self, grid: np.ndarray) -> np.ndarray:
+        (grid_height, grid_width) = grid.shape
+        updated_grid = grid.copy()
+        for i in range(grid_height):
+            for j in range(grid_width):
+                alive_neighbours_count = 0
+                for k in range(i-1, i+2):
+                    for l in range(j-1, j+2):
+                        if (k,l) != (i,j) and grid[(k % grid_height, l % grid_width)]:
+                            alive_neighbours_count += 1 
+                if not grid[i, j] and alive_neighbours_count == 3:
+                    updated_grid[i, j] = 1
+                if grid[i, j] and alive_neighbours_count not in [2, 3]:
+                    updated_grid[i, j] = 0
+        return updated_grid
 
     def run(self):
         pass
