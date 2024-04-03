@@ -3,9 +3,7 @@ from typing import Optional
 
 import numpy as np
 
-from GameOfLife.utils.common import parse_grid_from_file, generate_random_grid
 from GameOfLife import logger
-
 
 class Game:
     def __init__(
@@ -20,14 +18,18 @@ class Game:
             logger.error("Grid width and height must be positive.")
             raise ValueError
         
+        if random_seed:
+            np.random.seed(random_seed)
+        
         self.grid_size = (grid_width, grid_height)
         if starting_grid_filepath:
             self.starting_grid_filepath = starting_grid_filepath
             self.random_grid = False
         else:
             self.random_grid = random_grid
-            if random_seed:
-                self.random_seed = random_seed
+
+    def _parse_grid_from_file(self):
+        pass
 
     def _initialize_grid(self) -> None:
         """
@@ -37,10 +39,10 @@ class Game:
         grid = np.zeros(self.grid_size, dtype=np.bool_)
 
         if self.starting_grid_filepath:
-            grid = parse_grid_from_file(self.starting_grid_filepath)
+            grid = self._parse_grid_from_file()
 
         if self.random_grid:
-            grid = generate_random_grid(self.random_seed if self.random_seed else None)
+            grid = np.random.choice([False, True], self.grid_size)
 
         return grid
 
