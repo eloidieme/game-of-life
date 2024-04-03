@@ -4,7 +4,7 @@ Définit les métadonnées du package GameOfLife et permet son installation.
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as f:
-    description_longue = f.read()
+    long_description = f.read()
 
 __version__ = "0.0.1"
 
@@ -19,7 +19,7 @@ setuptools.setup(
     author=AUTHOR_USER_NAME,
     author_email=AUTHOR_EMAIL,
     description="Une implémentation du jeu de la vie en Python.",
-    long_description=description_longue,
+    long_description=long_description,
     long_description_content_type="text/markdown",
     url=f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}",
     project_urls={
