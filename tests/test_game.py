@@ -1,3 +1,5 @@
+import os
+
 import pytest
 import numpy as np
 
@@ -72,3 +74,18 @@ def test_import_from_file_incorrect_value():
     with pytest.raises(ValueError):
         game = Game(3, 3, starting_grid_filepath=test_path)
         game._parse_grid_from_file()
+
+
+def test_save_grid_to_file():
+    save_path = 'data/test_save.txt'
+    grid = np.array(
+        [[0, 0, 0],
+         [0, 1, 0],
+         [0, 0, 0]]
+    )
+    Game._save_grid_to_file(grid, save_path)
+    assert os.path.isfile(save_path)
+    game = Game(3, 3, starting_grid_filepath=save_path)
+    imported_grid = game._parse_grid_from_file()
+    assert np.all(grid == imported_grid)
+    os.remove(save_path)

@@ -51,6 +51,15 @@ class Game:
             raise ValueError
 
         return np.array(grid)
+    
+    @staticmethod
+    def _save_grid_to_file(grid: np.ndarray, path: str) -> None:
+        save_path = Path(path)
+        try:
+            np.savetxt(save_path, grid, fmt='%i', delimiter='')
+            logger.info("Grid successfully saved.")
+        except Exception as e:
+            logger.error(f"Exception occured while saving: {e}")
 
     def _initialize_grid(self) -> np.ndarray:
         """
