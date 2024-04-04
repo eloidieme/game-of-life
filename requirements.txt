@@ -1,4 +1,5 @@
 numpy
 pytest
 ipykernel
+window-curses; sys_platform == 'win32'
 -e .
