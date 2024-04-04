@@ -67,13 +67,6 @@ def test_import_from_file():
         assert np.all(grid == test_grids[i])
 
 
-def test_import_from_file_wrong_size():
-    test_path = 'data/test_grid_0.txt'
-    with pytest.raises(ValueError):
-        game = Game(4, 4, starting_grid_filepath=test_path)
-        game._parse_grid_from_file()
-
-
 def test_import_from_file_incorrect_value():
     test_path = 'data/test_grid_incorrect_value.txt'
     with pytest.raises(ValueError):

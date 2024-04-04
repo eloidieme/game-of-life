@@ -9,18 +9,29 @@ from GameOfLife import logger
 class Game:
     def __init__(
             self,
-            grid_height,
-            grid_width,
+            grid_height: Optional[int] = None,
+            grid_width: Optional[int] = None,
             random_grid: bool = True,
             starting_grid_filepath: Optional[str] = None,
             random_seed: Optional[int] = None,
             alive_probability: float = 0.5
     ) -> None:
-        if grid_height <= 0 or grid_width <= 0:
-            logger.error("Grid width and height must be positive.")
+        if grid_height and grid_width:
+            self.grid_size = (grid_height, grid_width)
+            if grid_height <= 0 or grid_width <= 0:
+                logger.error("Grid width and height must be positive if specified.")
+                raise ValueError
+        else:
+            self.grid_size = None
+            
+        if not grid_height and grid_width or not grid_width and grid_height:
+            logger.error("Grid width and height must be both specified if one of them is.")
+            raise ValueError
+        
+        if not grid_height and not starting_grid_filepath:
+            logger.error("Either grid size or file path must be specified.")
             raise ValueError
 
-        self.grid_size = (grid_height, grid_width)
         self.starting_grid_filepath = starting_grid_filepath
         self.random_grid = random_grid
         if starting_grid_filepath:
@@ -46,10 +57,6 @@ class Game:
             grid.append(row)
         grid = np.array(grid)
 
-        if grid.shape != self.grid_size:
-            logger.error("Size of imported grid and entered grid size do not match.")
-            raise ValueError
-
         return np.array(grid)
     
     @staticmethod
@@ -66,7 +73,8 @@ class Game:
         Initializes a grid using the class attributes (random or file-loaded).
         Defaults to a dead grid (meaning all the cells are set to zero).
         """
-        grid = np.zeros(self.grid_size)
+        if self.grid_size:
+            grid = np.zeros(self.grid_size)
 
         if self.starting_grid_filepath:
             grid = self._parse_grid_from_file()
