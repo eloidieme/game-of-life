@@ -7,6 +7,37 @@ from GameOfLife import logger
 
 
 class Game:
+    """
+    Main game class that handles grid initialization, 
+    I/O operations and game updates.
+
+    Attributes
+    ----------
+    grid_size: (int, int)
+        Dimensions of the grid.
+        Can be infered from a grid file if both lengths are set to None.
+    random_grid: bool
+        Specifies if the grid should be randomly generated.
+    starting_grid_filepath: str
+        Path of the grid file if the grid should be imported.
+    random_seed: int
+        A seed used to have predictable results with random 
+        grid generation.
+    alive_probability: float
+        The probability that an individual cell is created alive
+        for random grid generation.
+    
+    Methods
+    -------
+    _parse_grid_from_file() -> grid
+        Creates a grid from a .txt file input containing 0s and 1s.
+    _save_grid_to_file(grid, path)
+        Static method that saves a given grid to a .txt file.
+    _initialize_grid() -> grid
+        Creates a grid using the class attributes (dead, random or from file).
+    update_grid_state(grid) -> grid
+        Creates the next grid from a given grid using the rules of the game.
+    """
     def __init__(
             self,
             grid_height: Optional[int] = None,
@@ -43,6 +74,7 @@ class Game:
         self.alive_probability = alive_probability
 
     def _parse_grid_from_file(self) -> np.ndarray:
+
         file_path = Path(self.starting_grid_filepath)
         grid = []
         with open(file_path, 'r') as file:
