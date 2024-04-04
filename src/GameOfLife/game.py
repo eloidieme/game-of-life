@@ -19,15 +19,17 @@ class Game:
         if grid_height and grid_width:
             self.grid_size = (grid_height, grid_width)
             if grid_height <= 0 or grid_width <= 0:
-                logger.error("Grid width and height must be positive if specified.")
+                logger.error(
+                    "Grid width and height must be positive if specified.")
                 raise ValueError
         else:
             self.grid_size = None
-            
+
         if not grid_height and grid_width or not grid_width and grid_height:
-            logger.error("Grid width and height must be both specified if one of them is.")
+            logger.error(
+                "Grid width and height must be both specified if one of them is.")
             raise ValueError
-        
+
         if not grid_height and not starting_grid_filepath:
             logger.error("Either grid size or file path must be specified.")
             raise ValueError
@@ -51,14 +53,15 @@ class Game:
             for char in line:
                 if (char != '\n'):
                     if char not in ["0", "1"]:
-                        logger.error("Incorrect value in import file. Values must be 0 or 1.")
+                        logger.error(
+                            "Incorrect value in import file. Values must be 0 or 1.")
                         raise ValueError
                     row.append(int(char))
             grid.append(row)
         grid = np.array(grid)
 
         return np.array(grid)
-    
+
     @staticmethod
     def _save_grid_to_file(grid: np.ndarray, path: str) -> None:
         save_path = Path(path)
@@ -93,13 +96,10 @@ class Game:
                 alive_neighbours_count = 0
                 for k in range(i-1, i+2):
                     for l in range(j-1, j+2):
-                        if (k,l) != (i,j) and grid[(k % grid_height, l % grid_width)]:
-                            alive_neighbours_count += 1 
+                        if (k, l) != (i, j) and grid[(k % grid_height, l % grid_width)]:
+                            alive_neighbours_count += 1
                 if not grid[i, j] and alive_neighbours_count == 3:
                     updated_grid[i, j] = 1
                 if grid[i, j] and alive_neighbours_count not in [2, 3]:
                     updated_grid[i, j] = 0
         return updated_grid
-
-    def run(self):
-        pass

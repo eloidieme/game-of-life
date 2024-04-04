@@ -7,6 +7,7 @@ from curses.textpad import Textbox, rectangle
 
 from GameOfLife import logger
 
+
 class Terminal_GUI:
     def __init__(self, stdscr) -> None:
         self.options = [
@@ -171,7 +172,8 @@ class Terminal_GUI:
                 self.stdscr.nodelay(False)
                 self.stdscr.clear()
                 error_txt = "Grid larger than the terminal screen. Press a key to exit."
-                self._print_centered(self.scr_height // 2, error_txt, curses.A_REVERSE)
+                self._print_centered(self.scr_height // 2,
+                                     error_txt, curses.A_REVERSE)
                 logger.error(error_txt)
                 key = self.stdscr.getch()
                 exit(-1)

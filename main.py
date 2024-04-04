@@ -9,6 +9,7 @@ import sys
 from GameOfLife.game import Game
 from GameOfLife.gui import Terminal_GUI
 
+
 def main(stdscr):
     terminal = Terminal_GUI(stdscr)
 
@@ -48,7 +49,7 @@ def main(stdscr):
                 path = os.path.join('data', terminal.display_param_selector(
                     terminal.path_param_content).strip())
                 if not os.path.isfile(path):
-                    path = terminal.retry_path_input(path)  
+                    path = terminal.retry_path_input(path)
                 home = False
                 imported_canvas = True
                 break

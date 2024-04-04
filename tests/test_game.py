@@ -9,14 +9,21 @@ np.random.seed(42)
 
 
 def test_incorrect_grid_size():
+    sizes = [
+        (0, 1),
+        (1, 0),
+        (-1, 1),
+        (1, -1),
+        (None, 1),
+        (1, None),
+    ]
+    for (height, width) in sizes:
+        with pytest.raises(ValueError):
+            game = Game(height, width)
+
+def test_no_size_and_no_path():
     with pytest.raises(ValueError):
-        game = Game(0, 1)
-    with pytest.raises(ValueError):
-        game = Game(1, 0)
-    with pytest.raises(ValueError):
-        game = Game(-1, 1)
-    with pytest.raises(ValueError):
-        game = Game(1, -1)
+        game = Game()
 
 
 def test_initialize_dead_grid():
