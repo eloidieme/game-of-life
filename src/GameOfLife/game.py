@@ -47,6 +47,32 @@ class Game:
             random_seed: Optional[int] = None,
             alive_probability: float = 0.5
     ) -> None:
+        """
+        Parameters
+        ----------
+        grid_height: int
+            Number of cells along axis 0 of the grid.
+            Can be inferred from a grid file if set to None.
+        grid_width: int
+            Number of cells along axis 1 of the grid.
+            Can be inferred from a grid file if set to None.
+        random_grid: bool
+            Specifies if the grid should be randomly generated.
+        starting_grid_filepath: str
+            Path of the grid file if the grid should be imported.
+        random_seed: int
+            A seed used to have predictable results with random 
+            grid generation.
+        alive_probability: float
+            The probability that an individual cell is created alive
+            for random grid generation.
+
+        Raises
+        ------
+        ValueError
+            If incorrect grid dimensions are passed or 
+            if dimensions and file path are both absent.
+        """
         if grid_height and grid_width:
             self.grid_size = (grid_height, grid_width)
             if grid_height <= 0 or grid_width <= 0:
@@ -74,7 +100,14 @@ class Game:
         self.alive_probability = alive_probability
 
     def _parse_grid_from_file(self) -> np.ndarray:
+        """
+        Creates a grid from a .txt file input containing 0s and 1s.
 
+        Returns
+        -------
+        grid: np.ndarray
+            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+        """
         file_path = Path(self.starting_grid_filepath)
         grid = []
         with open(file_path, 'r') as file:
@@ -96,6 +129,16 @@ class Game:
 
     @staticmethod
     def _save_grid_to_file(grid: np.ndarray, path: str) -> None:
+        """
+        Static method that saves a given grid to a .txt file.
+
+        Parameters
+        ----------
+        grid: np.ndarray
+            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+        path: str
+            File path to where the file should be saved.
+        """
         save_path = Path(path)
         try:
             np.savetxt(save_path, grid, fmt='%i', delimiter='')
@@ -107,6 +150,11 @@ class Game:
         """
         Initializes a grid using the class attributes (random or file-loaded).
         Defaults to a dead grid (meaning all the cells are set to zero).
+
+        Returns
+        -------
+        grid: np.ndarray
+            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
         """
         if self.grid_size:
             grid = np.zeros(self.grid_size)
@@ -120,7 +168,22 @@ class Game:
 
         return grid
 
-    def _update_grid_state(self, grid: np.ndarray) -> np.ndarray:
+    def update_grid_state(self, grid: np.ndarray) -> np.ndarray:
+        """
+        Creates the next grid from a given grid using the rules of the game:
+        1. Any dead cell with exactly 3 living neighbors becomes a living cell.
+        2. Any living cell with 2 or 3 living neighbors stays alive, otherwise it dies.
+
+        Parameters
+        ----------
+        grid: np.ndarray
+            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+
+        Returns
+        -------
+        updated_grid: np.ndarray
+            Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.
+        """
         (grid_height, grid_width) = grid.shape
         updated_grid = grid.copy()
         for i in range(grid_height):

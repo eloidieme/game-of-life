@@ -21,6 +21,7 @@ def test_incorrect_grid_size():
         with pytest.raises(ValueError):
             game = Game(height, width)
 
+
 def test_no_size_and_no_path():
     with pytest.raises(ValueError):
         game = Game()
@@ -104,7 +105,7 @@ def test_update_dead_grid():
          [0, 0, 0]])
     (width, height) = grid.shape
     game = Game(height, width)
-    assert np.all(grid == game._update_grid_state(grid))
+    assert np.all(grid == game.update_grid_state(grid))
 
 
 def test_stay_alive():
@@ -124,7 +125,7 @@ def test_stay_alive():
     ])
     (width, height) = initial_grid.shape
     game = Game(height, width)
-    assert np.all(expected_next_grid == game._update_grid_state(initial_grid))
+    assert np.all(expected_next_grid == game.update_grid_state(initial_grid))
 
 
 def test_overpopulation():
@@ -144,7 +145,7 @@ def test_overpopulation():
     ])
     (width, height) = initial_grid.shape
     game = Game(height, width)
-    assert np.all(expected_next_grid == game._update_grid_state(initial_grid))
+    assert np.all(expected_next_grid == game.update_grid_state(initial_grid))
 
 
 def test_reproduction():
@@ -164,7 +165,8 @@ def test_reproduction():
     ])
     (width, height) = initial_grid.shape
     game = Game(height, width)
-    assert np.all(expected_next_grid == game._update_grid_state(initial_grid))
+    assert np.all(expected_next_grid == game.update_grid_state(initial_grid))
+
 
 def test_oscillator():
     initial_grid = np.array([
@@ -183,8 +185,9 @@ def test_oscillator():
     ])
     (width, height) = initial_grid.shape
     game = Game(height, width)
-    assert np.all(expected_next_grid == game._update_grid_state(initial_grid))
-    assert np.all(initial_grid == game._update_grid_state(expected_next_grid))
+    assert np.all(expected_next_grid == game.update_grid_state(initial_grid))
+    assert np.all(initial_grid == game.update_grid_state(expected_next_grid))
+
 
 def test_neighbour_wrapping():
     initial_grid = np.array([
@@ -199,7 +202,8 @@ def test_neighbour_wrapping():
     ])
     (width, height) = initial_grid.shape
     game = Game(height, width)
-    assert np.all(expected_next_grid == game._update_grid_state(initial_grid))
+    assert np.all(expected_next_grid == game.update_grid_state(initial_grid))
+
 
 def test_smaller_grids():
     initial_grid = np.array([
@@ -212,7 +216,7 @@ def test_smaller_grids():
     ])
     (width, height) = initial_grid.shape
     game = Game(height, width)
-    assert np.all(expected_next_grid == game._update_grid_state(initial_grid))
+    assert np.all(expected_next_grid == game.update_grid_state(initial_grid))
 
     initial_grid = np.array([
         [1]
@@ -222,4 +226,4 @@ def test_smaller_grids():
     ])
     (width, height) = initial_grid.shape
     game = Game(height, width)
-    assert np.all(expected_next_grid == game._update_grid_state(initial_grid))
+    assert np.all(expected_next_grid == game.update_grid_state(initial_grid))
