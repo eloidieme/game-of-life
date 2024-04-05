@@ -221,7 +221,6 @@ class TerminalGUI:
             for x in range(grid.shape[1]):
                 char = 'o' if grid[y, x] == 1 else ' '
                 self.stdscr.addstr(start_y + y, start_x + x * 2, char)
-        logger.info("Displayed game grid.")
 
     def retry_size_input(self, size: str) -> Tuple[int, int]:
         """
