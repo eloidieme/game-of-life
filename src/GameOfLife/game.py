@@ -87,7 +87,7 @@ class Game:
         return np.array(grid, dtype=int)
 
     @staticmethod
-    def _save_grid_to_file(grid: np.ndarray, path: str) -> None:
+    def save_grid_to_file(grid: np.ndarray, path: str) -> None:
         """
         Saves the grid state to a file.
 
@@ -152,14 +152,17 @@ class Game:
         (grid_height, grid_width) = grid.shape
         updated_grid = grid.copy()
         
-        def _check_neighbours(i, j, alive_neighbours_count):
+        ## Combining the two following helper functions makes the code less readable
+        def _check_neighbours(i, j):
+            alive_neighbours_count = 0
             for k in range(i-1, i+2):
                     for l in range(j-1, j+2):
                         if (k, l) != (i, j) and grid[(k % grid_height, l % grid_width)]:
                             alive_neighbours_count += 1
             return alive_neighbours_count
 
-        def _check_neighbours_no_wrapping(i, j, alive_neighbours_count):
+        def _check_neighbours_no_wrapping(i, j):
+            alive_neighbours_count = 0
             for k in range(max(0, i-1), min(i+2, grid_height)):
                     for l in range(max(0, j-1), min(j+2, grid_width)):
                         if (k, l) != (i, j) and grid[k, l]:
@@ -174,11 +177,10 @@ class Game:
 
         for i in range(grid_height):
             for j in range(grid_width):
-                alive_neighbours_count = 0
                 if no_wrapping:
-                    alive_neighbours_count = _check_neighbours_no_wrapping(i, j, alive_neighbours_count)
+                    alive_neighbours_count = _check_neighbours_no_wrapping(i, j)
                 else:
-                    alive_neighbours_count = _check_neighbours(i, j, alive_neighbours_count)
+                    alive_neighbours_count = _check_neighbours(i, j)
                 _apply_rules(updated_grid, i, j, alive_neighbours_count)
                 
         return updated_grid
