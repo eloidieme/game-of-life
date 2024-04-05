@@ -50,9 +50,8 @@ def test_initialize_random_grid():
 def test_initialize_random_grid_with_proba():
     for proba in np.arange(0.1, 1.0, 0.2):
         game = Game(1000, 1000, alive_probability=proba)
-        p = np.sum(game._initialize_grid() == 1) / \
-            (np.sum(game._initialize_grid() == 1) +
-             np.sum(game._initialize_grid() == 0))
+        grid = game._initialize_grid()
+        p = np.sum(grid == 1) / grid.size
         assert np.abs(p - proba) < 0.1
 
 
