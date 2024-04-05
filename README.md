@@ -1,5 +1,5 @@
 # Le Jeu de la Vie (Python)
-Par **Eloi Dieme** - [Documentation](https://eloidieme.github.io/game-of-life/index.html)
+Par **Eloi Dieme** - [Documentation (EN)](https://eloidieme.github.io/game-of-life/index.html)
 <p align="center">
   <img src="snapshots/gameplay.gif" />
 </p>
