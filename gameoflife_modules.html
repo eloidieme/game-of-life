@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameOfLife Modules &mdash; Game of Life 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="API Reference" href="api_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Game of Life
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GameOfLife Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#GameOfLife.game.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._initialize_grid"><code class="docutils literal notranslate"><span class="pre">Game._initialize_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._parse_grid_from_file"><code class="docutils literal notranslate"><span class="pre">Game._parse_grid_from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._save_grid_to_file"><code class="docutils literal notranslate"><span class="pre">Game._save_grid_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.update_grid_state"><code class="docutils literal notranslate"><span class="pre">Game.update_grid_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI._ensure_window_size"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI._ensure_window_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI._print_centered"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI._print_centered()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI._print_single_menu_option"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI._print_single_menu_option()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI.display_grid"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI.display_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI.display_main_menu"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI.display_main_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI.display_param_selector"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI.display_param_selector()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI.retry_path_input"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI.retry_path_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI.retry_size_input"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI.retry_size_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI.run_game"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI.run_game()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Game of Life</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api_reference.html">API Reference</a></li>
+      <li class="breadcrumb-item active">GameOfLife Modules</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/gameoflife_modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-GameOfLife.game">
+<span id="gameoflife-modules"></span><h1>GameOfLife Modules<a class="headerlink" href="#module-GameOfLife.game" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="GameOfLife.game.Game">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GameOfLife.game.</span></span><span class="sig-name descname"><span class="pre">Game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starting_grid_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alive_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/game.html#Game"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Main game class that handles grid initialization, 
+I/O operations and game updates.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>grid_size: (int, int)</dt><dd><p>Dimensions of the grid.
+Can be infered from a grid file if both lengths are set to None.</p>
+</dd>
+<dt>random_grid: bool</dt><dd><p>Specifies if the grid should be randomly generated.</p>
+</dd>
+<dt>starting_grid_filepath: str</dt><dd><p>Path of the grid file if the grid should be imported.</p>
+</dd>
+<dt>random_seed: int</dt><dd><p>A seed used to have predictable results with random 
+grid generation.</p>
+</dd>
+<dt>alive_probability: float</dt><dd><p>The probability that an individual cell is created alive
+for random grid generation.</p>
+</dd>
+</dl>
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>_parse_grid_from_file() -&gt; grid</dt><dd><p>Creates a grid from a .txt file input containing 0s and 1s.</p>
+</dd>
+<dt>_save_grid_to_file(grid, path)</dt><dd><p>Static method that saves a given grid to a .txt file.</p>
+</dd>
+<dt>_initialize_grid() -&gt; grid</dt><dd><p>Creates a grid using the class attributes (dead, random or from file).</p>
+</dd>
+<dt>update_grid_state(grid) -&gt; grid</dt><dd><p>Creates the next grid from a given grid using the rules of the game.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.game.Game._initialize_grid">
+<span class="sig-name descname"><span class="pre">_initialize_grid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game._initialize_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game._initialize_grid" title="Link to this definition"></a></dt>
+<dd><p>Initializes a grid using the class attributes (random or file-loaded).
+Defaults to a dead grid (meaning all the cells are set to zero).</p>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.game.Game._parse_grid_from_file">
+<span class="sig-name descname"><span class="pre">_parse_grid_from_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game._parse_grid_from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game._parse_grid_from_file" title="Link to this definition"></a></dt>
+<dd><p>Creates a grid from a .txt file input containing 0s and 1s.</p>
+<section id="id1">
+<h3>Returns<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.game.Game._save_grid_to_file">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_save_grid_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game._save_grid_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game._save_grid_to_file" title="Link to this definition"></a></dt>
+<dd><p>Static method that saves a given grid to a .txt file.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells.</p>
+</dd>
+<dt>path: str</dt><dd><p>File path to where the file should be saved.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.game.Game.update_grid_state">
+<span class="sig-name descname"><span class="pre">update_grid_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game.update_grid_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game.update_grid_state" title="Link to this definition"></a></dt>
+<dd><p>Creates the next grid from a given grid using the rules of the game:
+1. Any dead cell with exactly 3 living neighbors becomes a living cell.
+2. Any living cell with 2 or 3 living neighbors stays alive, otherwise it dies.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>updated_grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class" id="module-GameOfLife.gui">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GameOfLife.gui.</span></span><span class="sig-name descname"><span class="pre">Terminal_GUI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stdscr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI._ensure_window_size">
+<span class="sig-name descname"><span class="pre">_ensure_window_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI._ensure_window_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI._ensure_window_size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI._print_centered">
+<span class="sig-name descname"><span class="pre">_print_centered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI._print_centered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI._print_centered" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI._print_single_menu_option">
+<span class="sig-name descname"><span class="pre">_print_single_menu_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_selected</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI._print_single_menu_option"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI._print_single_menu_option" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.display_grid">
+<span class="sig-name descname"><span class="pre">display_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.display_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.display_grid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.display_main_menu">
+<span class="sig-name descname"><span class="pre">display_main_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_row_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.display_main_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.display_main_menu" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.display_param_selector">
+<span class="sig-name descname"><span class="pre">display_param_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.display_param_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.display_param_selector" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.retry_path_input">
+<span class="sig-name descname"><span class="pre">retry_path_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.retry_path_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.retry_path_input" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.retry_size_input">
+<span class="sig-name descname"><span class="pre">retry_size_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.retry_size_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.retry_size_input" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.run_game">
+<span class="sig-name descname"><span class="pre">run_game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.run_game"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.run_game" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api_reference.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Eloi Dieme.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameOfLife.gui &mdash; Game of Life 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Game of Life
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Game of Life</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">GameOfLife.gui</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for GameOfLife.gui</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">curses</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">curses.textpad</span> <span class="kn">import</span> <span class="n">Textbox</span><span class="p">,</span> <span class="n">rectangle</span>
+
+<span class="kn">from</span> <span class="nn">GameOfLife</span> <span class="kn">import</span> <span class="n">logger</span>
+
+
+<div class="viewcode-block" id="Terminal_GUI">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI">[docs]</a>
+<span class="k">class</span> <span class="nc">Terminal_GUI</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdscr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Generate a random grid&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Grid from a file&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Exit the game&quot;</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span> <span class="o">=</span> <span class="n">stdscr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">getmaxyx</span><span class="p">()</span>
+        <span class="n">exit_msg</span> <span class="o">=</span> <span class="s2">&quot;Press q to quit&quot;</span>
+        <span class="n">confirmation_msg</span> <span class="o">=</span> <span class="s2">&quot;ENTER to confirm&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size_param_content</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;exit&quot;</span><span class="p">:</span> <span class="n">exit_msg</span><span class="p">,</span>
+            <span class="s2">&quot;instruction&quot;</span><span class="p">:</span> <span class="s2">&quot;Enter grid size - fmt: height,width&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;confirmation&quot;</span><span class="p">:</span> <span class="n">confirmation_msg</span><span class="p">,</span>
+            <span class="s2">&quot;error_msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Wrong size format. Try again.&quot;</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_param_content</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;exit&quot;</span><span class="p">:</span> <span class="n">exit_msg</span><span class="p">,</span>
+            <span class="s2">&quot;instruction&quot;</span><span class="p">:</span> <span class="s2">&quot;Enter grid file name (in data/) - e.g. test.txt&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;confirmation&quot;</span><span class="p">:</span> <span class="n">confirmation_msg</span><span class="p">,</span>
+            <span class="s2">&quot;error_msg&quot;</span><span class="p">:</span> <span class="s2">&quot;File not found. Try again.&quot;</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_window_size</span><span class="p">()</span>
+        <span class="n">curses</span><span class="o">.</span><span class="n">curs_set</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">curses</span><span class="o">.</span><span class="n">init_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">COLOR_BLACK</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">COLOR_WHITE</span><span class="p">)</span>
+        <span class="n">curses</span><span class="o">.</span><span class="n">init_pair</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">COLOR_RED</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">COLOR_BLACK</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Terminal_GUI._ensure_window_size">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI._ensure_window_size">[docs]</a>
+    <span class="k">def</span> <span class="nf">_ensure_window_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">&lt;=</span> <span class="mi">12</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Window is too small.</span><span class="se">\n</span><span class="s2">Press any key to exit.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI._print_centered">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI._print_centered">[docs]</a>
+    <span class="k">def</span> <span class="nf">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">attribute</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI._print_single_menu_option">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI._print_single_menu_option">[docs]</a>
+    <span class="k">def</span> <span class="nf">_print_single_menu_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">is_selected</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">is_selected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">attron</span><span class="p">(</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">attroff</span><span class="p">(</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI.display_main_menu">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.display_main_menu">[docs]</a>
+    <span class="k">def</span> <span class="nf">display_main_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_row_idx</span><span class="p">):</span>
+        <span class="n">titles</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;Welcome to the Game of Life&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;subtitle&quot;</span><span class="p">:</span> <span class="s2">&quot;By Eloi Dieme&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;instruction&quot;</span><span class="p">:</span> <span class="s2">&quot;Choose an option to start the game:&quot;</span>
+        <span class="p">}</span>
+
+        <span class="n">rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="s2">&quot;instruction&quot;</span><span class="p">])</span> <span class="o">//</span>
+                  <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">9</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="s2">&quot;instruction&quot;</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span><span class="p">,</span>
+                             <span class="n">titles</span><span class="p">[</span><span class="s2">&quot;main&quot;</span><span class="p">],</span> <span class="n">attribute</span><span class="o">=</span><span class="n">curses</span><span class="o">.</span><span class="n">A_UNDERLINE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">titles</span><span class="p">[</span><span class="s2">&quot;subtitle&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">titles</span><span class="p">[</span><span class="s2">&quot;instruction&quot;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_single_menu_option</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="n">idx</span><span class="p">),</span> <span class="n">option</span><span class="p">,</span> <span class="n">is_selected</span><span class="o">=</span><span class="p">(</span><span class="n">idx</span> <span class="o">==</span> <span class="n">selected_row_idx</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI.display_param_selector">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.display_param_selector">[docs]</a>
+    <span class="k">def</span> <span class="nf">display_param_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">textbox_size</span> <span class="o">=</span> <span class="mi">30</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">content</span><span class="p">[</span><span class="s2">&quot;exit&quot;</span><span class="p">])</span>
+        <span class="n">curses</span><span class="o">.</span><span class="n">curs_set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">win</span> <span class="o">=</span> <span class="n">curses</span><span class="o">.</span><span class="n">newwin</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">textbox_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span>
+                            <span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">textbox_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">Textbox</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+        <span class="n">rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">textbox_size</span> <span class="o">//</span>
+                  <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">textbox_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s2">&quot;instruction&quot;</span><span class="p">])</span> <span class="o">//</span>
+                  <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s2">&quot;instruction&quot;</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_centered</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span><span class="p">,</span> <span class="n">content</span><span class="p">[</span><span class="s2">&quot;instruction&quot;</span><span class="p">],</span> <span class="n">attribute</span><span class="o">=</span><span class="n">curses</span><span class="o">.</span><span class="n">A_UNDERLINE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">6</span><span class="p">,</span>
+                             <span class="n">content</span><span class="p">[</span><span class="s2">&quot;confirmation&quot;</span><span class="p">],</span> <span class="n">attribute</span><span class="o">=</span><span class="n">curses</span><span class="o">.</span><span class="n">A_BOLD</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">attron</span><span class="p">(</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">8</span><span class="p">,</span>
+                                 <span class="n">content</span><span class="p">[</span><span class="s2">&quot;error_msg&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">attroff</span><span class="p">(</span><span class="n">curses</span><span class="o">.</span><span class="n">color_pair</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">_validator</span><span class="p">(</span><span class="n">ch</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Custom validator function to handle special keys&quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">ch</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">curses</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">BEL</span>
+            <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
+            <span class="k">elif</span> <span class="n">ch</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">127</span><span class="p">,</span> <span class="mi">8</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">curses</span><span class="o">.</span><span class="n">KEY_BACKSPACE</span>
+            <span class="k">return</span> <span class="n">ch</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+            <span class="n">input_str</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">_validator</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">input_str</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI.display_grid">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.display_grid">[docs]</a>
+    <span class="k">def</span> <span class="nf">display_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Press q to quit&quot;</span><span class="p">)</span>
+        <span class="n">start_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">start_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">//</span> <span class="mi">2</span>
+
+        <span class="n">rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="p">,</span> <span class="n">start_y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">start_x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">start_y</span> <span class="o">+</span>
+                  <span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">start_x</span> <span class="o">+</span> <span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">char</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span> <span class="k">if</span> <span class="n">grid</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39; &#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">start_y</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">start_x</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">char</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI.retry_size_input">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.retry_size_input">[docs]</a>
+    <span class="k">def</span> <span class="nf">retry_size_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_param_selector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">size_param_content</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">grid_height</span><span class="p">,</span> <span class="n">grid_width</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">size</span><span class="p">)]</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">grid_height</span><span class="p">,</span> <span class="n">grid_width</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI.retry_path_input">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.retry_path_input">[docs]</a>
+    <span class="k">def</span> <span class="nf">retry_path_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_param_selector</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">path_param_content</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">path</span></div>
+
+
+<div class="viewcode-block" id="Terminal_GUI.run_game">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.run_game">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">_initialize_grid</span><span class="p">()</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">nodelay</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+                    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">display_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+                <span class="n">grid</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">update_grid_state</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+            <span class="k">except</span> <span class="n">curses</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">nodelay</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">error_txt</span> <span class="o">=</span> <span class="s2">&quot;Grid larger than the terminal screen. Press a key to exit.&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+                                     <span class="n">error_txt</span><span class="p">,</span> <span class="n">curses</span><span class="o">.</span><span class="n">A_REVERSE</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_txt</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">getch</span><span class="p">()</span>
+                <span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Eloi Dieme.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
