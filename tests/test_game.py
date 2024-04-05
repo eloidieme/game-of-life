@@ -9,6 +9,7 @@ np.random.seed(42)
 
 
 def test_incorrect_grid_size():
+    """Verify that initializing the game with invalid grid sizes raises a ValueError."""
     sizes = [
         (0, 1),
         (1, 0),
@@ -23,11 +24,13 @@ def test_incorrect_grid_size():
 
 
 def test_no_size_and_no_path():
+    """Ensure that the game raises a ValueError when initialized without a size and file path."""
     with pytest.raises(ValueError):
         game = Game()
 
 
 def test_initialize_dead_grid():
+    """Check that grids initialized without the random_grid flag are dead (all zeros)."""
     sizes = [(100, 100), (50, 20), (20, 50)]
     for (width, height) in sizes:
         game = Game(height, width, random_grid=False)
@@ -37,6 +40,7 @@ def test_initialize_dead_grid():
 
 
 def test_initialize_random_grid():
+    """Test that grids initialized with the random_grid flag contain both alive and dead cells."""
     sizes = [(100, 100), (50, 20), (20, 50)]
     for (width, height) in sizes:
         game = Game(height, width)
@@ -48,6 +52,7 @@ def test_initialize_random_grid():
 
 
 def test_initialize_random_grid_with_proba():
+    """Check that the alive_probability parameter accurately influences the density of alive cells."""
     for proba in np.arange(0.1, 1.0, 0.2):
         game = Game(1000, 1000, alive_probability=proba)
         grid = game.initialize_grid()
@@ -56,6 +61,7 @@ def test_initialize_random_grid_with_proba():
 
 
 def test_import_from_file():
+    """Ensure that grids imported from files match the expected configurations."""
     test_grids = [
         np.array([[0, 0, 0],
                   [0, 1, 0],
@@ -75,6 +81,7 @@ def test_import_from_file():
 
 
 def test_import_from_file_incorrect_value():
+    """Test that importing a grid from a file with incorrect values raises a ValueError."""
     test_path = 'data/test_grid_incorrect_value.txt'
     with pytest.raises(ValueError):
         game = Game(3, 3, starting_grid_filepath=test_path)
@@ -82,6 +89,7 @@ def test_import_from_file_incorrect_value():
 
 
 def test_save_grid_to_file():
+    """Verify that grids can be saved to a file and then imported with identical configuration."""
     grid = np.array(
         [[0, 0, 0],
          [0, 1, 0],
@@ -97,6 +105,7 @@ def test_save_grid_to_file():
 
 
 def test_update_dead_grid():
+    """Confirm that updating a dead grid results in no changes."""
     grid = np.array(
         [[0, 0, 0],
          [0, 0, 0],
@@ -108,6 +117,7 @@ def test_update_dead_grid():
 
 
 def test_stay_alive():
+    """Check that cells with two or three neighbors stay alive through the update."""
     initial_grid = np.array([
         [0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0],
@@ -128,6 +138,7 @@ def test_stay_alive():
 
 
 def test_overpopulation():
+    """Verify that cells with more than three neighbors die from overpopulation."""
     initial_grid = np.array([
         [0, 0, 0, 0, 0],
         [0, 0, 1, 0, 0],
@@ -148,6 +159,7 @@ def test_overpopulation():
 
 
 def test_reproduction():
+    """Ensure that dead cells with exactly three neighbors become alive."""
     initial_grid = np.array([
         [0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0],
@@ -168,6 +180,7 @@ def test_reproduction():
 
 
 def test_oscillator():
+    """Test that oscillators toggle between states correctly."""
     initial_grid = np.array([
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
@@ -189,6 +202,7 @@ def test_oscillator():
 
 
 def test_neighbour_wrapping():
+    """Verify that neighbor wrapping works as expected for edge cells."""
     initial_grid = np.array([
         [1, 0, 0],
         [0, 1, 1],
@@ -205,6 +219,7 @@ def test_neighbour_wrapping():
 
 
 def test_smaller_grids():
+    """Ensure the game correctly handles smaller grids, including single-cell grids."""
     initial_grid = np.array([
         [0, 1],
         [0, 0]
