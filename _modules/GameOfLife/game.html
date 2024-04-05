@@ -166,10 +166,10 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Game._save_grid_to_file">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.game.Game._save_grid_to_file">[docs]</a>
+<div class="viewcode-block" id="Game.save_grid_to_file">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.game.Game.save_grid_to_file">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_save_grid_to_file</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">save_grid_to_file</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the grid state to a file.</span>
 
@@ -240,14 +240,17 @@
         <span class="p">(</span><span class="n">grid_height</span><span class="p">,</span> <span class="n">grid_width</span><span class="p">)</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">updated_grid</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         
-        <span class="k">def</span> <span class="nf">_check_neighbours</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">alive_neighbours_count</span><span class="p">):</span>
+        <span class="c1">## Combining the two following helper functions makes the code less readable</span>
+        <span class="k">def</span> <span class="nf">_check_neighbours</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="n">alive_neighbours_count</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">):</span>
                     <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">):</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[(</span><span class="n">k</span> <span class="o">%</span> <span class="n">grid_height</span><span class="p">,</span> <span class="n">l</span> <span class="o">%</span> <span class="n">grid_width</span><span class="p">)]:</span>
                             <span class="n">alive_neighbours_count</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">return</span> <span class="n">alive_neighbours_count</span>
 
-        <span class="k">def</span> <span class="nf">_check_neighbours_no_wrapping</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">alive_neighbours_count</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_check_neighbours_no_wrapping</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="n">alive_neighbours_count</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">grid_height</span><span class="p">)):</span>
                     <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">grid_width</span><span class="p">)):</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">]:</span>
@@ -262,11 +265,10 @@
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_height</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_width</span><span class="p">):</span>
-                <span class="n">alive_neighbours_count</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">if</span> <span class="n">no_wrapping</span><span class="p">:</span>
-                    <span class="n">alive_neighbours_count</span> <span class="o">=</span> <span class="n">_check_neighbours_no_wrapping</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">alive_neighbours_count</span><span class="p">)</span>
+                    <span class="n">alive_neighbours_count</span> <span class="o">=</span> <span class="n">_check_neighbours_no_wrapping</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">alive_neighbours_count</span> <span class="o">=</span> <span class="n">_check_neighbours</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">alive_neighbours_count</span><span class="p">)</span>
+                    <span class="n">alive_neighbours_count</span> <span class="o">=</span> <span class="n">_check_neighbours</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
                 <span class="n">_apply_rules</span><span class="p">(</span><span class="n">updated_grid</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">alive_neighbours_count</span><span class="p">)</span>
                 
         <span class="k">return</span> <span class="n">updated_grid</span></div>

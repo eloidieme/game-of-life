@@ -51,8 +51,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">GameOfLife Modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#GameOfLife.game.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._parse_grid_from_file"><code class="docutils literal notranslate"><span class="pre">Game._parse_grid_from_file()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._save_grid_to_file"><code class="docutils literal notranslate"><span class="pre">Game._save_grid_to_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.initialize_grid"><code class="docutils literal notranslate"><span class="pre">Game.initialize_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.save_grid_to_file"><code class="docutils literal notranslate"><span class="pre">Game.save_grid_to_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.update_grid_state"><code class="docutils literal notranslate"><span class="pre">Game.update_grid_state()</span></code></a></li>
 </ul>
 </li>
@@ -149,21 +149,6 @@ I/O operations and game updates.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="GameOfLife.game.Game._save_grid_to_file">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_save_grid_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game._save_grid_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game._save_grid_to_file" title="Link to this definition"></a></dt>
-<dd><p>Saves the grid state to a file.</p>
-<section id="parameters">
-<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
-<dl class="simple">
-<dt>grid<span class="classifier">np.ndarray</span></dt><dd><p>The grid to save.</p>
-</dd>
-<dt>path<span class="classifier">str</span></dt><dd><p>Destination file path.</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="GameOfLife.game.Game.initialize_grid">
 <span class="sig-name descname"><span class="pre">initialize_grid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game.initialize_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game.initialize_grid" title="Link to this definition"></a></dt>
 <dd><p>Initializes the grid based on the constructor parameters.</p>
@@ -178,6 +163,21 @@ I/O operations and game updates.</p>
 <h3>Raises<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>If the initialization conditions are not met.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.game.Game.save_grid_to_file">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_grid_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game.save_grid_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game.save_grid_to_file" title="Link to this definition"></a></dt>
+<dd><p>Saves the grid state to a file.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>grid<span class="classifier">np.ndarray</span></dt><dd><p>The grid to save.</p>
+</dd>
+<dt>path<span class="classifier">str</span></dt><dd><p>Destination file path.</p>
 </dd>
 </dl>
 </section>
