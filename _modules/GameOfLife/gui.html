@@ -95,6 +95,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    stdscr : _CursesWindow</span>
 <span class="sd">        The main window object provided by curses.</span>
+<span class="sd">    no_wrapping: bool</span>
+<span class="sd">        Determines if neighbour wrapping is applied during the game</span>
 <span class="sd">    options : list of str</span>
 <span class="sd">        List of options presented in the main menu.</span>
 <span class="sd">    scr_height, scr_width : int</span>
@@ -119,13 +121,14 @@
 <span class="sd">        Starts the game loop, updating and displaying the grid continuously.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdscr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdscr</span><span class="p">,</span> <span class="n">no_wrapping</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;Generate a random grid&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Grid from a file&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Exit the game&quot;</span>
         <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span> <span class="o">=</span> <span class="n">stdscr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_wrapping</span> <span class="o">=</span> <span class="n">no_wrapping</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scr_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scr_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">getmaxyx</span><span class="p">()</span>
         <span class="n">exit_msg</span> <span class="o">=</span> <span class="s2">&quot;Press q to quit&quot;</span>
         <span class="n">confirmation_msg</span> <span class="o">=</span> <span class="s2">&quot;ENTER to confirm&quot;</span>
@@ -399,7 +402,10 @@
                     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;User requested exit.&quot;</span><span class="p">)</span>
                     <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">display_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
-                <span class="n">grid</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">update_grid_state</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_wrapping</span><span class="p">:</span>
+                    <span class="n">grid</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">update_grid_state_no_wrapping</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">grid</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">update_grid_state</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
             <span class="k">except</span> <span class="n">curses</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>

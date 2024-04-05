@@ -15,3 +15,4 @@ The game evolves through generations, with the state of each cell in the next ge
 2. Any live cell with two or three live neighbors stays alive; otherwise, it dies.
 
 In this program, the grid is finite in size. Therefore, a cell at the grid's edge has neighbors on the opposite edge, ensuring each cell has exactly 8 neighbors.
+This "edge wrapping" feature can be disabled at runtime with the -nw or --no-wrapping argument.
