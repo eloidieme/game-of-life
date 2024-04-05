@@ -165,10 +165,10 @@ class Terminal_GUI:
                 if key == ord('q'):
                     exit(0)
                 self.display_grid(grid)
-                grid = game._update_grid_state(grid)
+                grid = game.update_grid_state(grid)
                 time.sleep(0.1)
                 self.stdscr.refresh()
-            except:
+            except curses.error:
                 self.stdscr.nodelay(False)
                 self.stdscr.clear()
                 error_txt = "Grid larger than the terminal screen. Press a key to exit."
