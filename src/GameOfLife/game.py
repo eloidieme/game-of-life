@@ -1,10 +1,7 @@
 from pathlib import Path
 from typing import Optional
-
 import numpy as np
-
 from GameOfLife import logger
-
 
 class Game:
     """
@@ -13,160 +10,126 @@ class Game:
 
     Attributes
     ----------
-    grid_size: (int, int)
-        Dimensions of the grid.
-        Can be infered from a grid file if both lengths are set to None.
-    random_grid: bool
-        Specifies if the grid should be randomly generated.
-    starting_grid_filepath: str
-        Path of the grid file if the grid should be imported.
-    random_seed: int
-        A seed used to have predictable results with random 
-        grid generation.
-    alive_probability: float
-        The probability that an individual cell is created alive
-        for random grid generation.
-    
-    Methods
-    -------
-    _parse_grid_from_file() -> grid
-        Creates a grid from a .txt file input containing 0s and 1s.
-    _save_grid_to_file(grid, path)
-        Static method that saves a given grid to a .txt file.
-    _initialize_grid() -> grid
-        Creates a grid using the class attributes (dead, random or from file).
-    update_grid_state(grid) -> grid
-        Creates the next grid from a given grid using the rules of the game.
+    grid_size : tuple of int
+        Dimensions of the grid (height, width). Inferred from grid file if None.
+    random_grid : bool
+        True to generate a random grid; False to load from file or initialize dead grid.
+    starting_grid_filepath : str, optional
+        Path to a grid file to load (.txt format with 0s and 1s).
+    random_seed : int, optional
+        Seed for random number generator for reproducible random grids.
+    alive_probability : float
+        Probability of a cell being alive at start (for random grids).
+
+    Raises
+    ------
+    ValueError
+        For invalid grid dimensions or missing necessary initialization parameters.
     """
+
     def __init__(
-            self,
-            grid_height: Optional[int] = None,
-            grid_width: Optional[int] = None,
-            random_grid: bool = True,
-            starting_grid_filepath: Optional[str] = None,
-            random_seed: Optional[int] = None,
-            alive_probability: float = 0.5
+        self,
+        grid_height: Optional[int] = None,
+        grid_width: Optional[int] = None,
+        random_grid: bool = True,
+        starting_grid_filepath: Optional[str] = None,
+        random_seed: Optional[int] = None,
+        alive_probability: float = 0.5,
     ) -> None:
+        if not (grid_height and grid_width) and not starting_grid_filepath:
+            logger.error("Either grid dimensions or a file path must be specified.")
+            raise ValueError("Grid dimensions or a file path must be provided.")
+
+        if (grid_height and grid_width) and (grid_height <= 0 or grid_width <= 0):
+            logger.error("Grid dimensions must be positive integers.")
+            raise ValueError("Invalid grid dimensions provided.")
+
+        self.grid_size = (grid_height, grid_width) if grid_height and grid_width else None
+        self.random_grid = random_grid and not starting_grid_filepath
+        self.starting_grid_filepath = starting_grid_filepath
+        if random_seed is not None:
+            np.random.seed(random_seed)
+        self.alive_probability = alive_probability
+        logger.info("Game initialized.")
+
+    def _parse_grid_from_file(self) -> np.ndarray:
         """
-        Parameters
-        ----------
-        grid_height: int
-            Number of cells along axis 0 of the grid.
-            Can be inferred from a grid file if set to None.
-        grid_width: int
-            Number of cells along axis 1 of the grid.
-            Can be inferred from a grid file if set to None.
-        random_grid: bool
-            Specifies if the grid should be randomly generated.
-        starting_grid_filepath: str
-            Path of the grid file if the grid should be imported.
-        random_seed: int
-            A seed used to have predictable results with random 
-            grid generation.
-        alive_probability: float
-            The probability that an individual cell is created alive
-            for random grid generation.
+        Reads grid configuration from a file and constructs a grid.
+
+        Returns
+        -------
+        np.ndarray
+            Numpy array representing the initial grid state.
 
         Raises
         ------
         ValueError
-            If incorrect grid dimensions are passed or 
-            if dimensions and file path are both absent.
-        """
-        if grid_height and grid_width:
-            self.grid_size = (grid_height, grid_width)
-            if grid_height <= 0 or grid_width <= 0:
-                logger.error(
-                    "Grid width and height must be positive if specified.")
-                raise ValueError
-        else:
-            self.grid_size = None
-
-        if not grid_height and grid_width or not grid_width and grid_height:
-            logger.error(
-                "Grid width and height must be both specified if one of them is.")
-            raise ValueError
-
-        if not grid_height and not starting_grid_filepath:
-            logger.error("Either grid size or file path must be specified.")
-            raise ValueError
-
-        self.starting_grid_filepath = starting_grid_filepath
-        self.random_grid = random_grid
-        if starting_grid_filepath:
-            self.random_grid = False
-        if random_seed:
-            np.random.seed(random_seed)
-        self.alive_probability = alive_probability
-
-    def _parse_grid_from_file(self) -> np.ndarray:
-        """
-        Creates a grid from a .txt file input containing 0s and 1s.
-
-        Returns
-        -------
-        grid: np.ndarray
-            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+            If the file contains invalid characters (not 0 or 1).
         """
         file_path = Path(self.starting_grid_filepath)
+        try:
+            with file_path.open('r') as file:
+                grid_lines = [line.strip() for line in file if line.strip()]
+        except Exception as e:
+            logger.error(f"Failed to read grid file: {e}")
+            raise ValueError(f"Error reading grid file: {file_path}") from e
+
         grid = []
-        with open(file_path, 'r') as file:
-            lines = file.readlines()
-
-        for line in lines:
+        for line_no, line in enumerate(grid_lines, start=1):
             row = []
-            for char in line:
-                if (char != '\n'):
-                    if char not in ["0", "1"]:
-                        logger.error(
-                            "Incorrect value in import file. Values must be 0 or 1.")
-                        raise ValueError
-                    row.append(int(char))
+            for char_no, char in enumerate(line, start=1):
+                if char not in "01":
+                    logger.error(f"Invalid character '{char}' at line {line_no}, column {char_no}.")
+                    raise ValueError(f"Invalid character '{char}' at line {line_no}, column {char_no}.")
+                row.append(int(char))
             grid.append(row)
-        grid = np.array(grid)
 
-        return np.array(grid)
+        return np.array(grid, dtype=int)
 
     @staticmethod
     def _save_grid_to_file(grid: np.ndarray, path: str) -> None:
         """
-        Static method that saves a given grid to a .txt file.
+        Saves the grid state to a file.
 
         Parameters
         ----------
-        grid: np.ndarray
-            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
-        path: str
-            File path to where the file should be saved.
+        grid : np.ndarray
+            The grid to save.
+        path : str
+            Destination file path.
         """
-        save_path = Path(path)
         try:
-            np.savetxt(save_path, grid, fmt='%i', delimiter='')
-            logger.info("Grid successfully saved.")
+            np.savetxt(path, grid, fmt='%i', delimiter='')
+            logger.info(f"Grid successfully saved to {path}.")
         except Exception as e:
-            logger.error(f"Exception occured while saving: {e}")
+            logger.error(f"Failed to save grid to file: {e}")
+            raise
 
     def _initialize_grid(self) -> np.ndarray:
         """
-        Initializes a grid using the class attributes (random or file-loaded).
-        Defaults to a dead grid (meaning all the cells are set to zero).
+        Initializes the grid based on the constructor parameters.
 
         Returns
         -------
-        grid: np.ndarray
-            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+        np.ndarray
+            Initialized grid array.
+
+        Raises
+        ------
+        ValueError
+            If the initialization conditions are not met.
         """
-        if self.grid_size:
-            grid = np.zeros(self.grid_size)
-
         if self.starting_grid_filepath:
-            grid = self._parse_grid_from_file()
+            return self._parse_grid_from_file()
 
-        if self.random_grid:
-            grid = np.random.choice([0, 1], self.grid_size, p=[
-                                    1 - self.alive_probability, self.alive_probability])
+        if self.grid_size:
+            if self.random_grid:
+                return np.random.choice([0, 1], size=self.grid_size, p=[1 - self.alive_probability, self.alive_probability])
+            else:
+                return np.zeros(self.grid_size, dtype=int)
 
-        return grid
+        logger.error("Grid initialization failed due to improper configuration.")
+        raise ValueError("Failed to initialize grid.")
 
     def update_grid_state(self, grid: np.ndarray) -> np.ndarray:
         """
