@@ -85,9 +85,9 @@
 <span class="kn">from</span> <span class="nn">GameOfLife.game</span> <span class="kn">import</span> <span class="n">Game</span>
 
 
-<div class="viewcode-block" id="Terminal_GUI">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI">[docs]</a>
-<span class="k">class</span> <span class="nc">Terminal_GUI</span><span class="p">:</span>
+<div class="viewcode-block" id="TerminalGUI">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI">[docs]</a>
+<span class="k">class</span> <span class="nc">TerminalGUI</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides a terminal-based graphical user interface for the Game of Life.</span>
 
@@ -152,8 +152,8 @@
                          <span class="n">curses</span><span class="o">.</span><span class="n">COLOR_BLACK</span><span class="p">)</span>  <span class="c1"># Error message</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Terminal GUI initialized.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Terminal_GUI._ensure_window_size">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI._ensure_window_size">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI._ensure_window_size">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI._ensure_window_size">[docs]</a>
     <span class="k">def</span> <span class="nf">_ensure_window_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if the terminal window is large enough for the game; exits if not.</span>
@@ -167,8 +167,8 @@
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI._print_centered">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI._print_centered">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI._print_centered">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI._print_centered">[docs]</a>
     <span class="k">def</span> <span class="nf">_print_centered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Utility method to print text centered on the screen.</span>
@@ -180,8 +180,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI._print_single_menu_option">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI._print_single_menu_option">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI._print_single_menu_option">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI._print_single_menu_option">[docs]</a>
     <span class="k">def</span> <span class="nf">_print_single_menu_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_selected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints a single menu option, highlighting if selected.</span>
@@ -195,8 +195,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">stdscr</span><span class="o">.</span><span class="n">addstr</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI.display_main_menu">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.display_main_menu">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI.display_main_menu">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI.display_main_menu">[docs]</a>
     <span class="k">def</span> <span class="nf">display_main_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selected_row_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Displays the main menu with the specified option highlighted.</span>
@@ -228,8 +228,8 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Displayed main menu.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI.display_param_selector">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.display_param_selector">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI.display_param_selector">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI.display_param_selector">[docs]</a>
     <span class="k">def</span> <span class="nf">display_param_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Displays a prompt for the user to enter parameters, such as grid size or file path,</span>
@@ -292,8 +292,8 @@
             <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI.display_grid">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.display_grid">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI.display_grid">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI.display_grid">[docs]</a>
     <span class="k">def</span> <span class="nf">display_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Displays the current state of the game grid.</span>
@@ -318,8 +318,8 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Displayed game grid.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI.retry_size_input">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.retry_size_input">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI.retry_size_input">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI.retry_size_input">[docs]</a>
     <span class="k">def</span> <span class="nf">retry_size_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Continuously prompts the user to input a valid grid size after a format error,</span>
@@ -350,8 +350,8 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Invalid grid size format entered.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI.retry_path_input">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.retry_path_input">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI.retry_path_input">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI.retry_path_input">[docs]</a>
     <span class="k">def</span> <span class="nf">retry_path_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Continuously prompts the user for a valid file path after a file not found error,</span>
@@ -378,8 +378,8 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Terminal_GUI.run_game">
-<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.Terminal_GUI.run_game">[docs]</a>
+<div class="viewcode-block" id="TerminalGUI.run_game">
+<a class="viewcode-back" href="../../gameoflife_modules.html#GameOfLife.gui.TerminalGUI.run_game">[docs]</a>
     <span class="k">def</span> <span class="nf">run_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Starts the main game loop, updating and displaying the grid state continuously</span>
@@ -390,7 +390,7 @@
 <span class="sd">        game : Game</span>
 <span class="sd">            An instance of the Game class, used to initialize and update the game&#39;s grid state.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">grid</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">_initialize_grid</span><span class="p">()</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">initialize_grid</span><span class="p">()</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
