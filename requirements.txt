@@ -1,5 +1,7 @@
 numpy
 pytest
 ipykernel
+sphinx
+sphinx-rtd-theme
 window-curses; sys_platform == 'win32'
 -e .
