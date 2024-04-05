@@ -42,7 +42,7 @@ class Terminal_GUI:
         Starts the game loop, updating and displaying the grid continuously.
     """
 
-    def __init__(self, stdscr: curses._CursesWindow) -> None:
+    def __init__(self, stdscr) -> None:
         self.options = [
             "Generate a random grid",
             "Grid from a file",
