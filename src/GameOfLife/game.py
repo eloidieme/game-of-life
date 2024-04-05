@@ -149,6 +149,9 @@ class Game:
         updated_grid: np.ndarray
             Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.
         """
+        (grid_height, grid_width) = grid.shape
+        updated_grid = grid.copy()
+        
         def _check_neighbours(i, j, alive_neighbours_count):
             for k in range(i-1, i+2):
                     for l in range(j-1, j+2):
@@ -169,8 +172,6 @@ class Game:
             if grid[i, j] and alive_neighbours_count not in [2, 3]:
                 updated_grid[i, j] = 0
 
-        (grid_height, grid_width) = grid.shape
-        updated_grid = grid.copy()
         for i in range(grid_height):
             for j in range(grid_width):
                 alive_neighbours_count = 0
