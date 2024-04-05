@@ -54,7 +54,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._parse_grid_from_file"><code class="docutils literal notranslate"><span class="pre">Game._parse_grid_from_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._save_grid_to_file"><code class="docutils literal notranslate"><span class="pre">Game._save_grid_to_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.update_grid_state"><code class="docutils literal notranslate"><span class="pre">Game.update_grid_state()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.update_grid_state_no_wrapping"><code class="docutils literal notranslate"><span class="pre">Game.update_grid_state_no_wrapping()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#GameOfLife.gui.Terminal_GUI"><code class="docutils literal notranslate"><span class="pre">Terminal_GUI</span></code></a><ul>
@@ -186,7 +185,7 @@ I/O operations and game updates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GameOfLife.game.Game.update_grid_state">
-<span class="sig-name descname"><span class="pre">update_grid_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game.update_grid_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game.update_grid_state" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_grid_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_wrapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game.update_grid_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game.update_grid_state" title="Link to this definition"></a></dt>
 <dd><p>Creates the next grid from a given grid using the rules of the game:
 1. Any dead cell with exactly 3 living neighbors becomes a living cell.
 2. Any living cell with 2 or 3 living neighbors stays alive, otherwise it dies.</p>
@@ -195,33 +194,12 @@ I/O operations and game updates.</p>
 <dl class="simple">
 <dt>grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells.</p>
 </dd>
+<dt>no_wrapping: bool</dt><dd><p>If True, no edge wrapping applied - edge cells have less than 8 neighbours</p>
+</dd>
 </dl>
 </section>
 <section id="id5">
 <h3>Returns<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
-<dl class="simple">
-<dt>updated_grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="GameOfLife.game.Game.update_grid_state_no_wrapping">
-<span class="sig-name descname"><span class="pre">update_grid_state_no_wrapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game.update_grid_state_no_wrapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game.update_grid_state_no_wrapping" title="Link to this definition"></a></dt>
-<dd><p>Creates the next grid from a given grid using the rules of the game:
-1. Any dead cell with exactly 3 living neighbors becomes a living cell.
-2. Any living cell with 2 or 3 living neighbors stays alive, otherwise it dies.
-No edge wrapping applied - edge cells have less neighbours than 8</p>
-<section id="id6">
-<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
-<dl class="simple">
-<dt>grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells.</p>
-</dd>
-</dl>
-</section>
-<section id="id7">
-<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>updated_grid: np.ndarray</dt><dd><p>Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.</p>
 </dd>
@@ -237,8 +215,8 @@ No edge wrapping applied - edge cells have less neighbours than 8</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GameOfLife.gui.</span></span><span class="sig-name descname"><span class="pre">Terminal_GUI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stdscr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_wrapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides a terminal-based graphical user interface for the Game of Life.</p>
-<section id="id8">
-<h2>Attributes<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>Attributes<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <dl class="simple">
 <dt>stdscr<span class="classifier">_CursesWindow</span></dt><dd><p>The main window object provided by curses.</p>
 </dd>
@@ -291,8 +269,8 @@ for wrong input.</p>
 <dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.display_grid">
 <span class="sig-name descname"><span class="pre">display_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.display_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.display_grid" title="Link to this definition"></a></dt>
 <dd><p>Displays the current state of the game grid.</p>
-<section id="id9">
-<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>grid<span class="classifier">numpy.ndarray</span></dt><dd><p>The game grid to display.</p>
 </dd>
@@ -304,8 +282,8 @@ for wrong input.</p>
 <dt class="sig sig-object py" id="GameOfLife.gui.Terminal_GUI.display_main_menu">
 <span class="sig-name descname"><span class="pre">display_main_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_row_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.display_main_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.display_main_menu" title="Link to this definition"></a></dt>
 <dd><p>Displays the main menu with the specified option highlighted.</p>
-<section id="id10">
-<h3>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<section id="id8">
+<h3>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>selected_row_idx<span class="classifier">int</span></dt><dd><p>Index of the currently selected menu option.</p>
 </dd>
@@ -318,8 +296,8 @@ for wrong input.</p>
 <span class="sig-name descname"><span class="pre">display_param_selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.display_param_selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.display_param_selector" title="Link to this definition"></a></dt>
 <dd><p>Displays a prompt for the user to enter parameters, such as grid size or file path,
 and error message if necessary.</p>
-<section id="id11">
-<h3>Parameters<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>content<span class="classifier">dict</span></dt><dd><p>Dictionary containing messages to display (exit, instruction, confirmation, error_msg).</p>
 </dd>
@@ -327,8 +305,8 @@ and error message if necessary.</p>
 </dd>
 </dl>
 </section>
-<section id="id12">
-<h3>Returns<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>str</dt><dd><p>The string input by the user.</p>
 </dd>
@@ -341,15 +319,15 @@ and error message if necessary.</p>
 <span class="sig-name descname"><span class="pre">retry_path_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.retry_path_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.retry_path_input" title="Link to this definition"></a></dt>
 <dd><p>Continuously prompts the user for a valid file path after a file not found error,
 until an existing file path is provided.</p>
-<section id="id13">
-<h3>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id11">
+<h3>Parameters<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>path<span class="classifier">str</span></dt><dd><p>The initial, incorrect file path input by the user.</p>
 </dd>
 </dl>
 </section>
-<section id="id14">
-<h3>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<section id="id12">
+<h3>Returns<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>str</dt><dd><p>The valid file path as a string.</p>
 </dd>
@@ -362,15 +340,15 @@ until an existing file path is provided.</p>
 <span class="sig-name descname"><span class="pre">retry_size_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.retry_size_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.retry_size_input" title="Link to this definition"></a></dt>
 <dd><p>Continuously prompts the user to input a valid grid size after a format error,
 until a valid format is provided.</p>
-<section id="id15">
-<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<section id="id13">
+<h3>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>size<span class="classifier">str</span></dt><dd><p>The initial, incorrect grid size input by the user.</p>
 </dd>
 </dl>
 </section>
-<section id="id16">
-<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<section id="id14">
+<h3>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>tuple</dt><dd><p>A tuple containing the grid height and width as integers.</p>
 </dd>
@@ -383,8 +361,8 @@ until a valid format is provided.</p>
 <span class="sig-name descname"><span class="pre">run_game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#GameOfLife.game.Game" title="GameOfLife.game.Game"><span class="pre">Game</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GameOfLife/gui.html#Terminal_GUI.run_game"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.gui.Terminal_GUI.run_game" title="Link to this definition"></a></dt>
 <dd><p>Starts the main game loop, updating and displaying the grid state continuously
 until the user chooses to exit.</p>
-<section id="id17">
-<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>game<span class="classifier">Game</span></dt><dd><p>An instance of the Game class, used to initialize and update the game’s grid state.</p>
 </dd>
