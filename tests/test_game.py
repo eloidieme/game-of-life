@@ -95,7 +95,7 @@ def test_save_grid_to_file():
          [0, 1, 0],
          [0, 0, 0]])
     save_path = 'data/test_save.txt'
-    Game._save_grid_to_file(grid, save_path)
+    Game.save_grid_to_file(grid, save_path)
     assert os.path.isfile(save_path)
 
     game = Game(3, 3, starting_grid_filepath=save_path)
