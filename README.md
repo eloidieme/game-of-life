@@ -1,6 +1,8 @@
 # Le Jeu de la Vie (Python)
 Par **Eloi Dieme**
-![Menu principal](snapshots/gameplay.gif)
+<p align="center">
+  <img src="snapshots/gameplay.gif" />
+</p>
 
 ## Description
 Le Jeu de la Vie est un automate cellulaire imaginé par le mathématicien britannique John Horton Conway en 1970. Ce jeu se déroule sur une grille où chaque cellule peut prendre deux états : vivante ou morte.
@@ -46,15 +48,21 @@ Pour lancer l'interface terminal, exécuter depuis une fenêtre Terminal suffisa
 python main.py
 ```
 Puis choisir une méthode d'initialisation de grille à l'aide des flèches directionnelles.
-![Menu principal](snapshots/menu.png)
+<p align="center">
+  <img src="snapshots/menu.png" />
+</p>
 
 #### Génération aléatoire
 Spécifier une taille de grille au format "hauteur, largeur".
-![Aleatoire](snapshots/random.png)
+<p align="center">
+  <img src="snapshots/random.png" />
+</p>
 
 #### Importation
 Spécifier le nom du fichier de grille présent dans le dossier "data". Les grilles disponibles d'emblée sont: 'toad.txt', 'blinker.txt', ...
-![Importation](snapshots/import.png)
+<p align="center">
+  <img src="snapshots/import.png" />
+</p>
 
 
 ## Historique des versions
