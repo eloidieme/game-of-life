@@ -10,7 +10,7 @@ from GameOfLife import logger
 from GameOfLife.game import Game
 
 
-class Terminal_GUI:
+class TerminalGUI:
     """
     Provides a terminal-based graphical user interface for the Game of Life.
 
@@ -287,7 +287,7 @@ class Terminal_GUI:
         game : Game
             An instance of the Game class, used to initialize and update the game's grid state.
         """
-        grid = game._initialize_grid()
+        grid = game.initialize_grid()
 
         while True:
             try:

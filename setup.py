@@ -1,5 +1,5 @@
 """
-Définit les métadonnées du package GameOfLife et permet son installation.
+Defines GameOfLife package metadata and allows for installation.
 """
 import setuptools
 

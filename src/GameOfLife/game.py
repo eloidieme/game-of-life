@@ -105,7 +105,7 @@ class Game:
             logger.error(f"Failed to save grid to file: {e}")
             raise
 
-    def _initialize_grid(self) -> np.ndarray:
+    def initialize_grid(self) -> np.ndarray:
         """
         Initializes the grid based on the constructor parameters.
 

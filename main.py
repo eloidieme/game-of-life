@@ -1,3 +1,6 @@
+"""
+Main program entry point for terminal UI.
+"""
 import curses
 import re
 import os
@@ -8,9 +11,12 @@ from curses import wrapper
 import sys
 
 from GameOfLife.game import Game
-from GameOfLife.gui import Terminal_GUI
+from GameOfLife.gui import TerminalGUI
 
 def parse_arguments():
+    """
+    Handles no-wrapping argument parsing.
+    """
     parser = argparse.ArgumentParser(description='Run Game of Life with optional no wrapping mode.')
 
     parser.add_argument('-nw', '--no-wrapping', action='store_true',
@@ -21,8 +27,11 @@ def parse_arguments():
 
 
 def main(stdscr):
+    """
+    Program entry-point.
+    """
     args = parse_arguments()
-    terminal = Terminal_GUI(stdscr, args.no_wrapping)
+    terminal = TerminalGUI(stdscr, args.no_wrapping)
 
     current_row_idx = 0
     terminal.display_main_menu(current_row_idx)
@@ -54,7 +63,6 @@ def main(stdscr):
                 finally:
                     home = False
                     random_canvas = True
-                    break
             elif current_row_idx == 1:
                 stdscr.clear()
                 path = os.path.join('data', terminal.display_param_selector(

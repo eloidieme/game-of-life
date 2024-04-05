@@ -31,7 +31,7 @@ def test_initialize_dead_grid():
     sizes = [(100, 100), (50, 20), (20, 50)]
     for (width, height) in sizes:
         game = Game(height, width, random_grid=False)
-        grid = game._initialize_grid()
+        grid = game.initialize_grid()
         assert np.all(grid == 0)
         assert grid.shape == (height, width)
 
@@ -40,7 +40,7 @@ def test_initialize_random_grid():
     sizes = [(100, 100), (50, 20), (20, 50)]
     for (width, height) in sizes:
         game = Game(height, width)
-        grid = game._initialize_grid()
+        grid = game.initialize_grid()
         assert np.any(grid == 1)
         assert np.any(grid == 0)
         assert np.all((grid == 0) | (grid == 1))
@@ -50,7 +50,7 @@ def test_initialize_random_grid():
 def test_initialize_random_grid_with_proba():
     for proba in np.arange(0.1, 1.0, 0.2):
         game = Game(1000, 1000, alive_probability=proba)
-        grid = game._initialize_grid()
+        grid = game.initialize_grid()
         p = np.sum(grid == 1) / grid.size
         assert np.abs(p - proba) < 0.1
 
