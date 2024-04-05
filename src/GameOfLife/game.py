@@ -131,7 +131,7 @@ class Game:
         logger.error("Grid initialization failed due to improper configuration.")
         raise ValueError("Failed to initialize grid.")
 
-    def update_grid_state(self, grid: np.ndarray) -> np.ndarray:
+    def update_grid_state(self, grid: np.ndarray, no_wrapping: bool = False) -> np.ndarray:
         """
         Creates the next grid from a given grid using the rules of the game:
         1. Any dead cell with exactly 3 living neighbors becomes a living cell.
@@ -141,56 +141,44 @@ class Game:
         ----------
         grid: np.ndarray
             Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+        no_wrapping: bool
+            If True, no edge wrapping applied - edge cells have less than 8 neighbours
 
         Returns
         -------
         updated_grid: np.ndarray
             Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.
         """
-        (grid_height, grid_width) = grid.shape
-        updated_grid = grid.copy()
-        for i in range(grid_height):
-            for j in range(grid_width):
-                alive_neighbours_count = 0
-                for k in range(i-1, i+2):
+        def _check_neighbours(i, j, alive_neighbours_count):
+            for k in range(i-1, i+2):
                     for l in range(j-1, j+2):
                         if (k, l) != (i, j) and grid[(k % grid_height, l % grid_width)]:
                             alive_neighbours_count += 1
-                if not grid[i, j] and alive_neighbours_count == 3:
-                    updated_grid[i, j] = 1
-                if grid[i, j] and alive_neighbours_count not in [2, 3]:
-                    updated_grid[i, j] = 0
-        return updated_grid
-    
-    def update_grid_state_no_wrapping(self, grid: np.ndarray) -> np.ndarray:
-        """
-        Creates the next grid from a given grid using the rules of the game:
-        1. Any dead cell with exactly 3 living neighbors becomes a living cell.
-        2. Any living cell with 2 or 3 living neighbors stays alive, otherwise it dies.
-        No edge wrapping applied - edge cells have less neighbours than 8
+            return alive_neighbours_count
 
-        Parameters
-        ----------
-        grid: np.ndarray
-            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+        def _check_neighbours_no_wrapping(i, j, alive_neighbours_count):
+            for k in range(max(0, i-1), min(i+2, grid_height)):
+                    for l in range(max(0, j-1), min(j+2, grid_width)):
+                        if (k, l) != (i, j) and grid[k, l]:
+                            alive_neighbours_count += 1
+            return alive_neighbours_count
 
-        Returns
-        -------
-        updated_grid: np.ndarray
-            Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.
-        """
+        def _apply_rules(updated_grid, i, j, alive_neighbours_count):
+            if not grid[i, j] and alive_neighbours_count == 3:
+                updated_grid[i, j] = 1
+            if grid[i, j] and alive_neighbours_count not in [2, 3]:
+                updated_grid[i, j] = 0
+
         (grid_height, grid_width) = grid.shape
         updated_grid = grid.copy()
         for i in range(grid_height):
             for j in range(grid_width):
                 alive_neighbours_count = 0
-                for k in range(max(0, i-1), min(i+2, grid_height)):
-                    for l in range(max(0, j-1), min(j+2, grid_width)):
-                        if (k, l) != (i, j) and grid[k, l]:
-                            alive_neighbours_count += 1
-                if not grid[i, j] and alive_neighbours_count == 3:
-                    updated_grid[i, j] = 1
-                if grid[i, j] and alive_neighbours_count not in [2, 3]:
-                    updated_grid[i, j] = 0
+                if no_wrapping:
+                    alive_neighbours_count = _check_neighbours_no_wrapping(i, j, alive_neighbours_count)
+                else:
+                    alive_neighbours_count = _check_neighbours(i, j, alive_neighbours_count)
+                _apply_rules(updated_grid, i, j, alive_neighbours_count)
+                
         return updated_grid
 

@@ -299,10 +299,7 @@ class Terminal_GUI:
                     logger.info("User requested exit.")
                     exit(0)
                 self.display_grid(grid)
-                if self.no_wrapping:
-                    grid = game.update_grid_state_no_wrapping(grid)
-                else:
-                    grid = game.update_grid_state(grid)
+                grid = game.update_grid_state(grid, self.no_wrapping)
                 time.sleep(0.1)
                 self.stdscr.refresh()
             except curses.error:
