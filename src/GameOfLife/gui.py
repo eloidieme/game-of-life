@@ -53,7 +53,7 @@ class Terminal_GUI:
         self.stdscr = stdscr
         self.no_wrapping = no_wrapping
         self.scr_height, self.scr_width = self.stdscr.getmaxyx()
-        exit_msg = "Press q to quit"
+        exit_msg = "Press CTRL+C to exit"
         confirmation_msg = "ENTER to confirm"
         self.size_param_content = {
             "exit": exit_msg,
@@ -184,12 +184,10 @@ class Terminal_GUI:
 
         def _validator(ch):
             """
-            Custom validator function to handle special keys during input.
+            Validator function to handle special keys during input.
             """
             if ch == ord('\n'):
                 return curses.ascii.BEL
-            elif ch == ord('q'):
-                raise KeyboardInterrupt
             elif ch in [127, 8]:
                 return curses.KEY_BACKSPACE
             return ch
@@ -211,7 +209,7 @@ class Terminal_GUI:
         grid : numpy.ndarray
             The game grid to display.
         """
-        self.stdscr.addstr(0, 0, "Press q to quit")
+        self.stdscr.addstr(0, 0, self.path_param_content["exit"])
 
         start_y = self.scr_height // 2 - grid.shape[0] // 2
         start_x = self.scr_width // 2 - grid.shape[1] * 2 // 2
@@ -295,13 +293,15 @@ class Terminal_GUI:
             try:
                 self.stdscr.nodelay(True)  # Non-blocking mode
                 key = self.stdscr.getch()
-                if key == ord('q'):
+                if key == 3: #ASCII code for CTRL+C
                     logger.info("User requested exit.")
-                    exit(0)
+                    raise KeyboardInterrupt
                 self.display_grid(grid)
                 grid = game.update_grid_state(grid, self.no_wrapping)
                 time.sleep(0.1)
                 self.stdscr.refresh()
+            except KeyboardInterrupt:
+                exit(0)
             except curses.error:
                 # Handle the case where the grid cannot be displayed due to screen size limitations
                 self.stdscr.nodelay(False)
