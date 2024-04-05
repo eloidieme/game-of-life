@@ -18,6 +18,8 @@ class Terminal_GUI:
     ----------
     stdscr : _CursesWindow
         The main window object provided by curses.
+    no_wrapping: bool
+        Determines if neighbour wrapping is applied during the game
     options : list of str
         List of options presented in the main menu.
     scr_height, scr_width : int
@@ -42,13 +44,14 @@ class Terminal_GUI:
         Starts the game loop, updating and displaying the grid continuously.
     """
 
-    def __init__(self, stdscr) -> None:
+    def __init__(self, stdscr, no_wrapping = False) -> None:
         self.options = [
             "Generate a random grid",
             "Grid from a file",
             "Exit the game"
         ]
         self.stdscr = stdscr
+        self.no_wrapping = no_wrapping
         self.scr_height, self.scr_width = self.stdscr.getmaxyx()
         exit_msg = "Press q to quit"
         confirmation_msg = "ENTER to confirm"
@@ -296,7 +299,10 @@ class Terminal_GUI:
                     logger.info("User requested exit.")
                     exit(0)
                 self.display_grid(grid)
-                grid = game.update_grid_state(grid)
+                if self.no_wrapping:
+                    grid = game.update_grid_state_no_wrapping(grid)
+                else:
+                    grid = game.update_grid_state(grid)
                 time.sleep(0.1)
                 self.stdscr.refresh()
             except curses.error:

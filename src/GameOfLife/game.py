@@ -161,3 +161,36 @@ class Game:
                 if grid[i, j] and alive_neighbours_count not in [2, 3]:
                     updated_grid[i, j] = 0
         return updated_grid
+    
+    def update_grid_state_no_wrapping(self, grid: np.ndarray) -> np.ndarray:
+        """
+        Creates the next grid from a given grid using the rules of the game:
+        1. Any dead cell with exactly 3 living neighbors becomes a living cell.
+        2. Any living cell with 2 or 3 living neighbors stays alive, otherwise it dies.
+        No edge wrapping applied - edge cells have less neighbours than 8
+
+        Parameters
+        ----------
+        grid: np.ndarray
+            Numpy array containing 0s and 1s corresponding to dead cells and alive cells.
+
+        Returns
+        -------
+        updated_grid: np.ndarray
+            Numpy array containing 0s and 1s corresponding to dead cells and alive cells, after update.
+        """
+        (grid_height, grid_width) = grid.shape
+        updated_grid = grid.copy()
+        for i in range(grid_height):
+            for j in range(grid_width):
+                alive_neighbours_count = 0
+                for k in range(max(0, i-1), min(i+2, grid_height)):
+                    for l in range(max(0, j-1), min(j+2, grid_width)):
+                        if (k, l) != (i, j) and grid[k, l]:
+                            alive_neighbours_count += 1
+                if not grid[i, j] and alive_neighbours_count == 3:
+                    updated_grid[i, j] = 1
+                if grid[i, j] and alive_neighbours_count not in [2, 3]:
+                    updated_grid[i, j] = 0
+        return updated_grid
+

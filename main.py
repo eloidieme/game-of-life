@@ -1,6 +1,7 @@
 import curses
 import re
 import os
+import argparse
 
 from curses import wrapper
 
@@ -9,9 +10,19 @@ import sys
 from GameOfLife.game import Game
 from GameOfLife.gui import Terminal_GUI
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Run Game of Life with optional no wrapping mode.')
+
+    parser.add_argument('-nw', '--no-wrapping', action='store_true',
+                        help='Run the game without wrapping edges.')
+
+    args = parser.parse_args()
+    return args
+
 
 def main(stdscr):
-    terminal = Terminal_GUI(stdscr)
+    args = parse_arguments()
+    terminal = Terminal_GUI(stdscr, args.no_wrapping)
 
     current_row_idx = 0
     terminal.display_main_menu(current_row_idx)

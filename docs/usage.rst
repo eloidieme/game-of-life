@@ -10,6 +10,12 @@ To launch the terminal interface, execute from a terminal window wide enough (an
 
    python main.py
 
+To disable "edge wrapping":
+
+.. code-block:: bash
+
+   python main.py -nw
+
 Then, choose a grid initialization method using the arrow keys.
 
 .. image:: ../snapshots/menu.png

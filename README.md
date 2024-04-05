@@ -13,6 +13,7 @@ Le jeu évolue à travers des générations, et l'état de chaque cellule à la 
 2. Toute cellule vivante possédant 2 ou 3 voisins vivants reste vivante, sinon elle meurt.
 
 Dans ce programme, la grille est de taille finie. Par conséquent, une cellule au bord de la grille a des voisins sur le bord opposé, ce qui garantit à chaque cellule exactement 8 voisins.
+Cette fonctionnalité de "edge wrapping" peut être désactivée lors du lancement avec l'argument -nw ou --no-wrapping.
 
 ## Démarrage rapide
 ### Pré-requis
@@ -46,6 +47,10 @@ pip install -r requirements.txt
 Pour lancer l'interface terminal, exécuter depuis une fenêtre Terminal suffisamment large (et pas depuis un terminal intégré à un IDE) :
 ```
 python main.py
+```
+Pour désactiver le "edge wrapping":
+```
+python main.py -nw
 ```
 Puis choisir une méthode d'initialisation de grille à l'aide des flèches directionnelles.
 <p align="center">
