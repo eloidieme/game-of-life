@@ -3,8 +3,11 @@ import re
 import time
 import curses
 import sys
+from typing import Tuple
 from curses.textpad import Textbox, rectangle
+import numpy as np
 from GameOfLife import logger
+from GameOfLife.game import Game
 
 
 class Terminal_GUI:
@@ -39,7 +42,7 @@ class Terminal_GUI:
         Starts the game loop, updating and displaying the grid continuously.
     """
 
-    def __init__(self, stdscr) -> None:
+    def __init__(self, stdscr: curses._CursesWindow) -> None:
         self.options = [
             "Generate a random grid",
             "Grid from a file",
@@ -81,7 +84,7 @@ class Terminal_GUI:
             logger.error("Terminal window too small. Exiting.")
             sys.exit(-1)
 
-    def _print_centered(self, y, text, attribute=None):
+    def _print_centered(self, y: int, text: str, attribute=None):
         """
         Utility method to print text centered on the screen.
         """
@@ -91,7 +94,7 @@ class Terminal_GUI:
         else:
             self.stdscr.addstr(y, x, text)
 
-    def _print_single_menu_option(self, y, text, is_selected):
+    def _print_single_menu_option(self, y: int, text: str, is_selected: bool):
         """
         Prints a single menu option, highlighting if selected.
         """
@@ -103,7 +106,7 @@ class Terminal_GUI:
         else:
             self.stdscr.addstr(y, x, text)
 
-    def display_main_menu(self, selected_row_idx):
+    def display_main_menu(self, selected_row_idx: int):
         """
         Displays the main menu with the specified option highlighted.
 
@@ -133,7 +136,7 @@ class Terminal_GUI:
         self.stdscr.refresh()
         logger.info("Displayed main menu.")
 
-    def display_param_selector(self, content, error=False):
+    def display_param_selector(self, content: dict, error: bool = False) -> str:
         """
         Displays a prompt for the user to enter parameters, such as grid size or file path,
         and error message if necessary.
@@ -196,7 +199,7 @@ class Terminal_GUI:
             logger.info("User initiated exit during parameter selection.")
             exit(0)
 
-    def display_grid(self, grid):
+    def display_grid(self, grid: np.ndarray):
         """
         Displays the current state of the game grid.
 
@@ -219,7 +222,7 @@ class Terminal_GUI:
                 self.stdscr.addstr(start_y + y, start_x + x * 2, char)
         logger.info("Displayed game grid.")
 
-    def retry_size_input(self, size):
+    def retry_size_input(self, size: str) -> Tuple[int, int]:
         """
         Continuously prompts the user to input a valid grid size after a format error,
         until a valid format is provided.
@@ -248,7 +251,7 @@ class Terminal_GUI:
             except ValueError:
                 logger.error("Invalid grid size format entered.")
 
-    def retry_path_input(self, path):
+    def retry_path_input(self, path: str) -> str:
         """
         Continuously prompts the user for a valid file path after a file not found error,
         until an existing file path is provided.
@@ -273,7 +276,7 @@ class Terminal_GUI:
             else:
                 logger.error(f"File not found: {path}.")
 
-    def run_game(self, game):
+    def run_game(self, game: Game):
         """
         Starts the main game loop, updating and displaying the grid state continuously
         until the user chooses to exit.
