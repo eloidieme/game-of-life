@@ -64,7 +64,7 @@ Spécifier une taille de grille au format "hauteur, largeur".
 </p>
 
 #### Importation
-Spécifier le nom du fichier de grille présent dans le dossier "data". Les grilles disponibles d'emblée sont: 'toad.txt', 'blinker.txt', ...
+Spécifier le nom du fichier de grille présent dans le dossier "data". Les grilles disponibles d'emblée sont: 'toad.txt', 'blinker.txt', 'pulsar.txt', 'beacon.txt', 'diehard.txt', 'pentomino.txt', 'spaceship.txt' et 'glider.txt'
 <p align="center">
   <img src="snapshots/import.png" />
 </p>

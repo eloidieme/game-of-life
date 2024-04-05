@@ -29,3 +29,10 @@ Specify a grid size in the format "height,width".
 .. image:: ../snapshots/random.png
    :align: center
 
+Import from file
+----------------
+
+Specify the name of the grid file in the "data" folder. The grids available are: 'toad.txt', 'blinker.txt', 'pulsar.txt', 'beacon.txt', 'diehard.txt', 'pentomino.txt', 'spaceship.txt' and 'glider.txt'.
+
+.. image:: ../snapshots/import.png
+   :align: center
