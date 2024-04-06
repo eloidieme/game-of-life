@@ -64,7 +64,7 @@ Spécifier une taille de grille au format "hauteur, largeur".
 </p>
 
 #### Importation
-Spécifier le nom du fichier de grille présent dans le dossier "data". Les grilles disponibles d'emblée sont: 'toad.txt', 'blinker.txt', 'pulsar.txt', 'beacon.txt', 'diehard.txt', 'pentomino.txt', 'spaceship.txt' et 'glider.txt'
+Spécifier le nom du fichier de grille présent dans le dossier "data". Les grilles disponibles d'emblée sont: 'toad.txt', 'blinker.txt', 'pulsar.txt', 'beacon.txt', 'diehard.txt', 'pentomino.txt', 'spaceship.txt' et 'glider.txt'. Le format standardisé RLE est également supporté et des grilles d'essai sont disponibles comme 'gosper_glider.rle' ou 'pentadecathlon.rle'.
 <p align="center">
   <img src="snapshots/import.png" />
 </p>
