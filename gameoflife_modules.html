@@ -50,7 +50,8 @@
 <li class="toctree-l1 current"><a class="reference internal" href="api_reference.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">GameOfLife Modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#GameOfLife.game.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._parse_grid_from_file"><code class="docutils literal notranslate"><span class="pre">Game._parse_grid_from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._parse_grid_from_rle"><code class="docutils literal notranslate"><span class="pre">Game._parse_grid_from_rle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game._parse_grid_from_txt"><code class="docutils literal notranslate"><span class="pre">Game._parse_grid_from_txt()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.initialize_grid"><code class="docutils literal notranslate"><span class="pre">Game.initialize_grid()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.save_grid_to_file"><code class="docutils literal notranslate"><span class="pre">Game.save_grid_to_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#GameOfLife.game.Game.update_grid_state"><code class="docutils literal notranslate"><span class="pre">Game.update_grid_state()</span></code></a></li>
@@ -114,7 +115,7 @@ I/O operations and game updates.</p>
 </dd>
 <dt>random_grid<span class="classifier">bool</span></dt><dd><p>True to generate a random grid; False to load from file or initialize dead grid.</p>
 </dd>
-<dt>starting_grid_filepath<span class="classifier">str, optional</span></dt><dd><p>Path to a grid file to load (.txt format with 0s and 1s).</p>
+<dt>starting_grid_filepath<span class="classifier">str, optional</span></dt><dd><p>Path to a grid file to load (.txt format with 0s and 1s or .rle format).</p>
 </dd>
 <dt>random_seed<span class="classifier">int, optional</span></dt><dd><p>Seed for random number generator for reproducible random grids.</p>
 </dd>
@@ -129,8 +130,13 @@ I/O operations and game updates.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="GameOfLife.game.Game._parse_grid_from_file">
-<span class="sig-name descname"><span class="pre">_parse_grid_from_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game._parse_grid_from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game._parse_grid_from_file" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="GameOfLife.game.Game._parse_grid_from_rle">
+<span class="sig-name descname"><span class="pre">_parse_grid_from_rle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertical_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">horizontal_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game._parse_grid_from_rle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game._parse_grid_from_rle" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="GameOfLife.game.Game._parse_grid_from_txt">
+<span class="sig-name descname"><span class="pre">_parse_grid_from_txt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/GameOfLife/game.html#Game._parse_grid_from_txt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GameOfLife.game.Game._parse_grid_from_txt" title="Link to this definition"></a></dt>
 <dd><p>Reads grid configuration from a file and constructs a grid.</p>
 <section id="returns">
 <h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
