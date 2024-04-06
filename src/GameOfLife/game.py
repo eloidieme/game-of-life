@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Optional
 import numpy as np
+import re
 from GameOfLife import logger
 
 class Game:
@@ -15,7 +16,7 @@ class Game:
     random_grid : bool
         True to generate a random grid; False to load from file or initialize dead grid.
     starting_grid_filepath : str, optional
-        Path to a grid file to load (.txt format with 0s and 1s).
+        Path to a grid file to load (.txt format with 0s and 1s or .rle format).
     random_seed : int, optional
         Seed for random number generator for reproducible random grids.
     alive_probability : float
@@ -52,7 +53,7 @@ class Game:
         self.alive_probability = alive_probability
         logger.info("Game initialized.")
 
-    def _parse_grid_from_file(self) -> np.ndarray:
+    def _parse_grid_from_txt(self) -> np.ndarray:
         """
         Reads grid configuration from a file and constructs a grid.
 
@@ -83,6 +84,65 @@ class Game:
                     raise ValueError(f"Invalid character '{char}' at line {line_no}, column {char_no}.")
                 row.append(int(char))
             grid.append(row)
+
+        return np.array(grid, dtype=int)
+    
+    def _parse_grid_from_rle(self, vertical_spacing = 4, horizontal_spacing = 4) -> np.ndarray:
+        file_path = Path(self.starting_grid_filepath)
+        try:
+            with file_path.open('r') as file:
+                grid_lines = [line.strip() for line in file if line.strip()]
+        except Exception as e:
+            logger.error(f"Failed to read grid file: {e}")
+            raise ValueError(f"Error reading grid file: {file_path}") from e
+        
+        starting_idx = 0
+        while grid_lines[starting_idx][0] == '#':
+            starting_idx += 1
+
+        size_line = grid_lines[starting_idx]
+        pattern_line = ""
+        for line in grid_lines[starting_idx + 1:]:
+            pattern_line += line
+        width_str, height_str, _ = size_line.split(',')
+        width = int(re.findall(r'[-+]?[0-9]*\.?[0-9]+', width_str)[0])
+        patterns = pattern_line.split('$')
+        total_width = width + 2*horizontal_spacing
+
+        grid = []
+        for _ in range(vertical_spacing):
+            grid.append([0] * total_width)
+        
+        for pattern in patterns:
+            row = [0] * horizontal_spacing
+            nums = "0123456789"
+            cells = "ob"
+            running_num = ""
+            for char in pattern:
+                if char in nums:
+                    running_num += char
+                elif char in cells and running_num != "":
+                    if char == "o":
+                        for _ in range(int(running_num)):
+                            row.append(1)
+                    elif char == "b":
+                        for _ in range(int(running_num)):
+                            row.append(0)
+                    running_num = ""
+                else:
+                    if char == "o":
+                        row.append(1)
+                    elif char == 'b':
+                        row.append(0)
+            for _ in range(horizontal_spacing):
+                row.append(0)
+            if len(row) < total_width:
+                for _ in range(total_width - len(row)):
+                    row.append(0)
+            grid.append(row)
+
+        for _ in range(vertical_spacing):
+            grid.append([0] * total_width)
 
         return np.array(grid, dtype=int)
 
@@ -120,7 +180,10 @@ class Game:
             If the initialization conditions are not met.
         """
         if self.starting_grid_filepath:
-            return self._parse_grid_from_file()
+            if self.starting_grid_filepath.split('.')[-1] == 'txt':
+                return self._parse_grid_from_txt()
+            else:
+                return self._parse_grid_from_rle()
 
         if self.grid_size:
             if self.random_grid:

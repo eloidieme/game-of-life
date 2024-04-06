@@ -76,7 +76,7 @@ def test_import_from_file():
     sizes = [(3, 3), (4, 5)]
     for i in range(2):
         game = Game(sizes[i][0], sizes[i][1], starting_grid_filepath=paths[i])
-        grid = game._parse_grid_from_file()
+        grid = game._parse_grid_from_txt()
         assert np.all(grid == test_grids[i])
 
 
@@ -85,7 +85,7 @@ def test_import_from_file_incorrect_value():
     test_path = 'data/test_grid_incorrect_value.txt'
     with pytest.raises(ValueError):
         game = Game(3, 3, starting_grid_filepath=test_path)
-        game._parse_grid_from_file()
+        game._parse_grid_from_txt()
 
 
 def test_save_grid_to_file():
@@ -99,7 +99,7 @@ def test_save_grid_to_file():
     assert os.path.isfile(save_path)
 
     game = Game(3, 3, starting_grid_filepath=save_path)
-    imported_grid = game._parse_grid_from_file()
+    imported_grid = game._parse_grid_from_txt()
     assert np.all(grid == imported_grid)
     os.remove(save_path)
 
