@@ -72,6 +72,6 @@ Spécifier le nom du fichier de grille présent dans le dossier "data". Les gril
 
 ## Historique des versions
 * 0.0.1: 
-    * Version fonctionnelle 
+    * Premiere version
 
 
